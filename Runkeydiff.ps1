@@ -64,7 +64,6 @@ function Stop-ObservedProcess {
 
 function Compare-Snapshots {
     param ([hashtable]$ComSnapshot1, [hashtable]$ComSnapshot2)
-    $differences = @{}
     $diffList = @()
     foreach ($path in $ComSnapshot1.Keys) {
         $keys1 = $ComSnapshot1[$path].Keys
@@ -127,3 +126,10 @@ if ($ComparedShot.Count -eq 0) {
 }
 
 Write-Host "`n[✓] Comparison complete.`n" -ForegroundColor Green
+
+
+
+
+
+
+
