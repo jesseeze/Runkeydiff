@@ -23,7 +23,7 @@ function Get-RunKeySnapshot {
         $values = Read-KeyValues -KeyPath $path
         Write-Host "`n[+] Registry values in $($path):`n" -ForegroundColor Cyan
         if ($values.Count -gt 0) {
-            $values.GetEnumerator() | Format-Table Name, Value -AutoSize
+            $values.GetEnumerator() | Format-Table Name, Value -AutoSize | Out-Host
         } else {
             Write-Host "(no values)" -ForegroundColor DarkGray
         }
@@ -51,14 +51,14 @@ function Stop-ObservedProcess {
         return
     }
     try {
-        if (!$Proc.HasExited) {
+        if ($Proc -and !$Proc.HasExited) {
             Stop-Process -Id $Proc.Id -Force -ErrorAction Stop
-            Write-Host "[✓] Process stopped successfully (PID: $($Proc.Id))" -ForegroundColor Green
+            Write-Host "[OK] Process stopped successfully (PID: $($Proc.Id))" -ForegroundColor Green
         } else {
-            Write-Host "[i] Process has already exited." -ForegroundColor Yellow
+            Write-Host "[INFO] Process has already exited." -ForegroundColor Yellow
         }
     } catch {
-        Write-Host "[!] Error stopping process: $_" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to stop process: $_" -ForegroundColor Red
     }
 }
 
@@ -125,11 +125,4 @@ if ($ComparedShot.Count -eq 0) {
     $ComparedShot | Format-Table Path, Name, Change, Before, After -AutoSize
 }
 
-Write-Host "`n[✓] Comparison complete.`n" -ForegroundColor Green
-
-
-
-
-
-
-
+Write-Host "`n[Done] Comparison complete.`n" -ForegroundColor Green
